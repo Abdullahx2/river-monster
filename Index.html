@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>River Monster - Premium Casino Experience</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            --gold: #ffd700;
+            --neon-green: #00ff88;
+            --neon-blue: #00ffff;
+            --river-blue: #1e90ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at center, #0a1f3a 0%, #051423 100%);
+            color: #fff;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 🌊 RIVER BACKGROUND EFFECT */
+        #river-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                linear-gradient(rgba(10, 31, 58, 0.8), rgba(5, 20, 35, 0.9)),
+                url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            filter: blur(3px);
+        }
+
+        .water-overlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 20%, rgba(10, 31, 58, 0.9) 100%);
+            z-index: -1;
+        }
+
+        /* WATER RIPPLES */
+        .ripple {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border: 2px solid rgba(30, 144, 255, 0.3);
+            border-radius: 50%;
+            animation: rippleEffect 4s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes rippleEffect {
+            0% { transform: scale(0.1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* TITLE SECTION */
+        .header {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .header h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            text-transform: uppercase;
+            background: linear-gradient(to bottom, #fff 20%, var(--river-blue) 50%, #1e90ff 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 15px rgba(30, 144, 255, 0.5));
+            letter-spacing: 10px;
+            margin-bottom: 10px;
+        }
+
+        .promo-badge {
+            background: var(--neon-green);
+            padding: 5px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 0 15px var(--neon-green);
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        /* BONUS DISCLAIMER */
+        .bonus-note {
+            color: var(--gold);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 15px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        /* GIFT CONTAINERS */
+        .gifts-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            padding: 40px;
+            max-width: 1300px;
+        }
+
+        .gift {
+            width: 320px;
+            height: 420px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .gift-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-style: preserve-3d;
+        }
+
+        .gift.selected .gift-inner { transform: rotateY(180deg) scale(1.1); }
+        
+        .gift.locked { opacity: 0.3; filter: grayscale(1); pointer-events: none; }
+
+        .front, .back {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            border: 3px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(0,0,0,0.7);
+            padding: 30px;
+            text-align: center;
+        }
+
+        .front {
+            background: linear-gradient(135deg, #0a1f3a, #051423);
+            border-color: var(--river-blue);
+            overflow: hidden;
+        }
+
+        /* WATER SHINE EFFECT */
+        .front::after {
+            content: '';
+            position: absolute;
+            top: -100%; left: -100%;
+            width: 300%; height: 300%;
+            background: linear-gradient(45deg, transparent, rgba(30, 144, 255, 0.2), transparent);
+            transform: rotate(45deg);
+            animation: waterShine 4s infinite;
+        }
+
+        @keyframes waterShine { 
+            0% { top: -100%; left: -100%; } 
+            100% { top: 100%; left: 100%; } 
+        }
+
+        .back {
+            background: linear-gradient(135deg, #0a1f3a, #051423);
+            transform: rotateY(180deg);
+            border-color: var(--gold);
+            justify-content: space-between;
+        }
+
+        /* BONUS DETAILS STYLING */
+        .bonus-amount {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin: 15px 0;
+            background: linear-gradient(to bottom, var(--gold), #ffa500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .bonus-details {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.95rem;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #94a3b8;
+            text-align: left;
+        }
+
+        .detail-value {
+            color: var(--gold);
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .instant-badge {
+            background: var(--neon-green);
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 0 10px var(--neon-green);
+            margin-top: 15px;
+        }
+
+        .box-icon {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px currentColor);
+        }
+
+        .gift-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--river-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 40px;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.8rem;
+            text-align: center;
+            width: 100%;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .screenshot-hint {
+            color: var(--gold);
+            margin-top: 20px;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        @media (max-width: 768px) {
+            .gift { width: 280px; height: 380px; }
+            .header h1 { letter-spacing: 4px; }
+            .gifts-grid { gap: 20px; padding: 20px; }
+            .bonus-amount { font-size: 2.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="river-bg"></div>
+<div class="water-overlay"></div>
+
+<!-- Water ripples -->
+<div class="ripple" style="left: 10%; top: 20%;"></div>
+<div class="ripple" style="left: 50%; top: 60%; animation-delay: 1s;"></div>
+<div class="ripple" style="left: 80%; top: 30%; animation-delay: 2s;"></div>
+
+<div class="header">
+    <div class="promo-badge">RIVER MONSTER EXCLUSIVE</div>
+    <h1>RIVER MONSTER</h1>
+    <p>🎣 Choose ONE mystery gift to reveal your fishing bonus!</p>
+    
+    <div class="bonus-note">
+        ⚡ Each gift contains unique bonuses. Choose wisely - you can only select ONE!
+        All bonuses come with INSTANT CASHOUT.
+    </div>
+</div>
+
+<div class="gifts-grid">
+    <!-- GIFT 1: 150% BONUS -->
+    <div class="gift" onclick="openGift(this, '#ffd700', 1)">
+        <div class="gift-inner">
+            <div class="front" style="color: var(--gold);">
+                <img src="https://cdn-icons-png.flaticon.com/512/261/261947.png" class="box-icon" alt="Diamond">
+                <h3 class="gift-title">GOLDEN CATCH</h3>
+                <p style="color: #94a3b8; margin-top: 10px;">Click to reveal bonus</p>
+            </div>
+            <div class="back">
+                <h2 style="color: var(--gold); margin-bottom: 10px;">GOLDEN CATCH</h2>
+                <div class="bonus-amount">150% BONUS</div>
+                
+                <div class="bonus-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Deposit Range:</span>
+                        <span class="detail-value">$5 - $15</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">If You Lose:</span>
+                        <span class="detail-value">5 FREE PLAYS</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Redeem Up To:</span>
+                        <span class="detail-value">$250</span>
+                    </div>
+                </div>
+                
+                <div class="instant-badge">INSTANT CASHOUT</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GIFT 2: 70% BONUS -->
+    <div class="gift" onclick="openGift(this, '#00ffff', 2)">
+        <div class="gift-inner">
+            <div class="front" style="color: var(--neon-blue);">
+                <img src="https://cdn-icons-png.flaticon.com/512/2150/2150150.png" class="box-icon" alt="Gold">
+                <h3 class="gift-title">SILVER REEL</h3>
+                <p style="color: #94a3b8; margin-top: 10px;">Click to reveal bonus</p>
+            </div>
+            <div class="back">
+                <h2 style="color: var(--neon-blue); margin-bottom: 10px;">SILVER REEL</h2>
+                <div class="bonus-amount">70% BONUS</div>
+                
+                <div class="bonus-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Deposit Range:</span>
+                        <span class="detail-value">$10 - $40</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">If You Lose:</span>
+                        <span class="detail-value">$10 CASHBACK</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Redeem Up To:</span>
+                        <span class="detail-value">$300</span>
+                    </div>
+                </div>
+                
+                <div class="instant-badge">INSTANT CASHOUT</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GIFT 3: 100% BONUS -->
+    <div class="gift" onclick="openGift(this, '#00ff88', 3)">
+        <div class="gift-inner">
+            <div class="front" style="color: var(--neon-green);">
+                <img src="https://cdn-icons-png.flaticon.com/512/3209/3209129.png" class="box-icon" alt="Spins">
+                <h3 class="gift-title">JADE NET</h3>
+                <p style="color: #94a3b8; margin-top: 10px;">Click to reveal bonus</p>
+            </div>
+            <div class="back">
+                <h2 style="color: var(--neon-green); margin-bottom: 10px;">JADE NET</h2>
+                <div class="bonus-amount">100% BONUS</div>
+                
+                <div class="bonus-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Deposit Range:</span>
+                        <span class="detail-value">$5 - $15</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">If You Lose:</span>
+                        <span class="detail-value">50% CASHBACK</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Redeem Up To:</span>
+                        <span class="detail-value">$300</span>
+                    </div>
+                </div>
+                
+                <div class="instant-badge">INSTANT CASHOUT</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2024 RIVER MONSTER CASINO | 18+ RESPONSIBLE GAMING
+    <div class="screenshot-hint">
+        📸 After selecting your gift, take a screenshot and send to support@rivermonster.com
+    </div>
+</footer>
+
+<script>
+    let isChosen = false;
+    let selectedGift = null;
+
+    const bonuses = {
+        1: {
+            title: "GOLDEN CATCH",
+            type: "150% BONUS",
+            deposit: "$5 - $15",
+            ifLose: "5 FREE PLAYS",
+            redeem: "$250"
+        },
+        2: {
+            title: "SILVER REEL", 
+            type: "70% BONUS",
+            deposit: "$10 - $40",
+            ifLose: "$10 CASHBACK",
+            redeem: "$300"
+        },
+        3: {
+            title: "JADE NET",
+            type: "100% BONUS",
+            deposit: "$5 - $15", 
+            ifLose: "50% CASHBACK",
+            redeem: "$300"
+        }
+    };
+
+    function openGift(element, color, giftNumber) {
+        if (isChosen) {
+            alert("🎣 You have already selected a gift! Take screenshot and send to support.");
+            return;
+        }
+        
+        isChosen = true;
+        selectedGift = bonuses[giftNumber];
+
+        // Add selected class
+        element.classList.add('selected');
+
+        // Lock others
+        document.querySelectorAll('.gift').forEach(gift => {
+            if (gift !== element) gift.classList.add('locked');
+        });
+
+        // 🎇 Confetti Blast
+        const duration = 3 * 1000;
+        const end = Date.now() + duration;
+
+        (function frame() {
+            confetti({
+                particleCount: 3,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: [color, '#ffffff']
+            });
+            confetti({
+                particleCount: 3,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: [color, '#ffffff']
+            });
+
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+
+        // Show success message
+        setTimeout(() => {
+            const message = `🎉 ${selectedGift.title} SELECTED!\n\n${selectedGift.type}\nDeposit: ${selectedGift.deposit}\nIf Lose: ${selectedGift.ifLose}\nRedeem Up To: ${selectedGift.redeem}\n\n📸 Take screenshot and send to support!`;
+            alert(message);
+        }, 1000);
+    }
+
+    // Add some interactive water effect
+    document.addEventListener('mousemove', (e) => {
+        const ripple = document.createElement('div');
+        ripple.classList.add('ripple');
+        ripple.style.left = e.clientX + 'px';
+        ripple.style.top = e.clientY + 'px';
+        document.body.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 4000);
+    });
+</script>
+
+</body>
+</html>
