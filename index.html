@@ -1,511 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>River Monster - Claim Your Bonus</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #0c1a2d, #1a3a5f, #0c1a2d);
-            color: white;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .logo {
-            font-size: 3.2rem;
-            font-weight: 900;
-            background: linear-gradient(45deg, #00c6ff, #0072ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 10px;
-            letter-spacing: 1px;
-        }
-        
-        .instruction {
-            font-size: 1.2rem;
-            color: #b0c4de;
-            margin-bottom: 30px;
-            text-align: center;
-            padding: 18px;
-            background: rgba(0, 114, 255, 0.1);
-            border-radius: 12px;
-            border-left: 4px solid #0072ff;
-        }
-        
-        .options-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-        
-        .option-box {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
-            padding: 28px 25px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .option-box:hover {
-            transform: translateY(-8px);
-            border-color: #00c6ff;
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 10px 25px rgba(0, 198, 255, 0.2);
-        }
-        
-        .option-box.locked {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-        
-        .option-icon {
-            font-size: 2.8rem;
-            margin-bottom: 18px;
-        }
-        
-        .option-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #fff;
-        }
-        
-        .option-desc {
-            font-size: 0.95rem;
-            color: #a0b9d9;
-            margin-bottom: 20px;
-            line-height: 1.4;
-        }
-        
-        .click-hint {
-            font-size: 0.85rem;
-            color: #00c6ff;
-            padding: 8px 16px;
-            background: rgba(0, 198, 255, 0.15);
-            border-radius: 20px;
-            display: inline-block;
-            margin-top: 12px;
-            border: 1px solid rgba(0, 198, 255, 0.3);
-        }
-        
-        /* HIDDEN BONUS CONTENT */
-        .bonus-content {
-            display: none;
-            margin-top: 25px;
-            padding: 22px;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 12px;
-            border-left: 4px solid #00c6ff;
-            animation: fadeIn 0.4s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .bonus-content.show {
-            display: block;
-        }
-        
-        .bonus-item {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            display: flex;
-            align-items: center;
-            font-size: 1rem;
-        }
-        
-        .bonus-item:last-child {
-            border-bottom: none;
-        }
-        
-        .bonus-item i {
-            color: #00c6ff;
-            margin-right: 12px;
-            width: 22px;
-            font-size: 1.1rem;
-        }
-        
-        /* REVEALED BONUS SECTION */
-        .revealed-section {
-            display: none;
-            margin-top: 35px;
-            padding: 35px 30px;
-            background: rgba(0, 0, 0, 0.35);
-            border-radius: 18px;
-            border: 2px solid #00c6ff;
-            animation: slideUp 0.5s ease;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-        
-        @keyframes slideUp {
-            from { transform: translateY(25px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        .revealed-section.show {
-            display: block;
-        }
-        
-        .revealed-title {
-            font-size: 2rem;
-            text-align: center;
-            margin-bottom: 25px;
-            color: #00c6ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .selected-bonus-box {
-            background: rgba(0, 198, 255, 0.1);
-            border-radius: 15px;
-            padding: 28px;
-            margin: 25px 0;
-            border: 1px solid rgba(0, 198, 255, 0.2);
-        }
-        
-        .screenshot-instruction {
-            background: linear-gradient(90deg, rgba(255, 50, 50, 0.15), rgba(255, 100, 100, 0.15));
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            font-size: 1.3rem;
-            margin: 30px 0;
-            border-left: 5px solid #ff3232;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .screenshot-instruction i {
-            font-size: 2.5rem;
-            color: #ff3232;
-        }
-        
-        footer {
-            margin-top: 35px;
-            text-align: center;
-            color: #7a9bc8;
-            font-size: 0.9rem;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-            line-height: 1.5;
-        }
-        
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .container {
-                padding: 25px 20px;
-                border-radius: 18px;
-            }
-            
-            .options-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            
-            .logo {
-                font-size: 2.5rem;
-            }
-            
-            .revealed-title {
-                font-size: 1.6rem;
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .screenshot-instruction {
-                font-size: 1.1rem;
-                padding: 20px;
-            }
-            
-            .option-box {
-                padding: 25px 20px;
-            }
-            
-            .instruction {
-                font-size: 1.1rem;
-                padding: 15px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 15px 10px;
-            }
-            
-            .container {
-                padding: 20px 15px;
-            }
-            
-            .logo {
-                font-size: 2.2rem;
-            }
-            
-            .option-icon {
-                font-size: 2.3rem;
-            }
-            
-            .option-title {
-                font-size: 1.3rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1 class="logo">RIVER MONSTER</h1>
-            <p style="color: #b0c4de; letter-spacing: 2px;">PREMIUM GAMING</p>
-        </div>
-        
-        <div class="instruction">
-            <i class="fas fa-gift"></i> <strong>Click ONE option below to reveal your exclusive bonus</strong><br>
-            <small style="font-size: 0.9rem;">You can select only one bonus. Make your choice!</small>
-        </div>
-        
-        <div class="options-container">
-            <!-- Option 1 -->
-            <div class="option-box" onclick="revealBonus(1)">
-                <div class="option-icon">🎣</div>
-                <div class="option-title">50% Bonus</div>
-                <div class="option-desc">Get 50% extra on your next deposit</div>
-                <div class="click-hint">Click to see full details</div>
-                
-                <div class="bonus-content" id="bonus-1">
-                    <div class="bonus-item">
-                        <i class="fas fa-money-bill-wave"></i> 50% Bonus on next Deposit $5 – $15
-                    </div>
-                    <div class="bonus-item">
-                        <i class="fas fa-gamepad"></i> 5 Free Plays if you lose
-                    </div>
-                    <div class="bonus-item">
-                        <i class="fas fa-gift"></i> Redeem up to $250
-                    </div>
-                    <div class="bonus-item">
-                        <i class="fas fa-bolt"></i> Instant Cashout
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Option 2 -->
-            <div class="option-box" onclick="revealBonus(2)">
-                <div class="option-icon">🌊</div>
-                <div class="option-title">100% Bonus</div>
-                <div class="option-desc">Double your money on next deposit</div>
-                <div class="click-hint">Click to see full details</div>
-                
-                <div class="bonus-content" id="bonus-2">
-                    <div class="bonus-item">
-                        <i class="fas fa-money-bill-wave"></i> 100% Bonus on next Deposit $5 – $15
-                    </div>
-                    <div class="bonus-item">
-                        <i class="fas fa-shield-alt"></i> 50% Cashback if you lose
-                    </div>
-                    <div class="bonus-item">
-                        <i class="fas fa-gift"></i> Redeem up to $300
-                    </div>
-                    <div class="bonus-item">
-                        <i class="fas fa-bolt"></i> Instant Cashout
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Option 3 -->
-            <div class="option-box" onclick="revealBonus(3)">
-                <div class="option-icon">🐟</div>
-                <div class="option-title">70% Bonus</div>
-                <div class="option-desc">High roller bonus for big players</div>
-                <div class="click-hint">Click to see full details</div>
-                
-                <div class="bonus-content" id="bonus-3">
-                    <div class="bonus-item">
-                        <i class="fas fa-money-bill-wave"></i> 70% Bonus on next Deposit $10 – $40
-                    </div>
-                    <div class="bonus-item">
-                        <i class="fas fa-hand-holding-usd"></i> $10 Cashback if you lose
-                    </div>
-                    <div class="bonus-item">
-                        <i class="fas fa-gift"></i> Redeem up to $300
-                    </div>
-                    <div class="bonus-item">
-                        <i class="fas fa-bolt"></i> Instant Cashout
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- REVEALED BONUS SECTION -->
-        <div class="revealed-section" id="revealedSection">
-            <h2 class="revealed-title">
-                <i class="fas fa-trophy"></i>
-                <span>YOUR BONUS REVEALED!</span>
-            </h2>
-            
-            <div class="selected-bonus-box" id="selectedBonus">
-                <!-- Selected bonus will appear here -->
-            </div>
-            
-            <div class="screenshot-instruction">
-                <i class="fas fa-camera"></i>
-                <div>
-                    <strong>TAKE SCREENSHOT AND SEND TO US</strong><br>
-                    <small style="font-size: 0.95rem;">Screenshot this bonus and send to support to claim</small>
-                </div>
-            </div>
-            
-            <div style="text-align: center; color: #a0b9d9; font-size: 0.9rem; margin-top: 20px;">
-                <i class="fas fa-lock"></i> Bonus locked in - cannot change selection
-            </div>
-        </div>
-    </div>
-    
-    <footer>
-        &copy; <span id="currentYear"></span> River Monster Gaming. For players 18+ only.<br>
-        <small style="opacity: 0.7;">This is a promotional offer. Terms and conditions apply.</small>
-    </footer>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Milk+T | Premium Casino Wheel</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <script>
-        let isBonusRevealed = false;
-        
-        // Bonus data - EXACTLY as you specified
-        const bonuses = {
-            1: {
-                title: "🎣 50% BONUS",
-                items: [
-                    "50% Bonus on next Deposit $5 – $15",
-                    "5 Free Plays if you lose",
-                    "Redeem up to $250",
-                    "Instant Cashout"
-                ]
-            },
-            2: {
-                title: "🌊 100% BONUS",
-                items: [
-                    "100% Bonus on next Deposit $5 – $15",
-                    "50% Cashback if you lose",
-                    "Redeem up to $300",
-                    "Instant Cashout"
-                ]
-            },
-            3: {
-                title: "🐟 70% BONUS",
-                items: [
-                    "70% Bonus on next Deposit $10 – $40",
-                    "$10 Cashback if you lose",
-                    "Redeem up to $300",
-                    "Instant Cashout"
-                ]
-            }
-        };
-        
-        function revealBonus(optionNumber) {
-            // If bonus already revealed, do nothing
-            if (isBonusRevealed) return;
-            
-            // Hide all bonus contents first
-            document.querySelectorAll('.bonus-content').forEach(content => {
-                content.classList.remove('show');
-            });
-            
-            // Show selected bonus content
-            const selectedBonus = document.getElementById(`bonus-${optionNumber}`);
-            selectedBonus.classList.add('show');
-            
-            // Lock all options
-            document.querySelectorAll('.option-box').forEach(box => {
-                box.classList.add('locked');
-            });
-            
-            // Mark as revealed
-            isBonusRevealed = true;
-            
-            // Show the revealed section after 1 second
-            setTimeout(() => {
-                showRevealedSection(optionNumber);
-            }, 1000);
-        }
-        
-        function showRevealedSection(optionNumber) {
-            const bonus = bonuses[optionNumber];
-            const selectedBonusDiv = document.getElementById('selectedBonus');
-            
-            // Display the selected bonus
-            selectedBonusDiv.innerHTML = `
-                <h3 style="color: #00c6ff; margin-bottom: 20px; font-size: 1.6rem; text-align: center;">${bonus.title}</h3>
-                ${bonus.items.map(item => `
-                    <div class="bonus-item">
-                        <i class="fas fa-check-circle"></i> ${item}
-                    </div>
-                `).join('')}
-            `;
-            
-            // Show the revealed section
-            document.getElementById('revealedSection').classList.add('show');
-            
-            // Scroll to revealed section
-            document.getElementById('revealedSection').scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-            
-            // Show screenshot alert
-            setTimeout(() => {
-                alert("📸 SCREENSHOT REQUIRED!\n\n1. Take screenshot NOW\n2. Send to River Monster support\n3. Claim your bonus instantly!\n\niPhone: Volume Up + Side Button\nAndroid: Volume Down + Power Button");
-            }, 600);
-        }
-        
-        // Set current year in footer
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-        
-        // Touch device optimization
-        document.addEventListener('touchstart', function() {}, {passive: true});
-        
-        // Prevent accidental zoom on mobile
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        });
-    </script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    font-family:Segoe UI,Tahoma,sans-serif;
+    background:radial-gradient(circle at center,#0b0b1d,#02020a);
+    color:#fff;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.container{text-align:center;width:100%;max-width:700px}
+
+.logo{
+    font-size:4rem;
+    font-weight:900;
+    background:linear-gradient(45deg,#ffd700,#ff9f1c);
+    -webkit-background-clip:text;
+    color:transparent;
+    margin-bottom:10px;
+}
+
+.instructions{color:#cbd5e1;margin-bottom:30px}
+
+.wheel-container{
+    position:relative;
+    width:360px;
+    height:360px;
+    margin:30px auto;
+}
+
+.pointer{
+    position:absolute;
+    top:-25px;
+    left:50%;
+    transform:translateX(-50%);
+    width:0;height:0;
+    border-left:18px solid transparent;
+    border-right:18px solid transparent;
+    border-top:30px solid #ffd700;
+    z-index:5;
+}
+
+.wheel{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:#000;
+    padding:12px;
+    box-shadow:0 0 50px rgba(255,215,0,.35);
+}
+
+.wheel-inner{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    background:
+        conic-gradient(
+            #dc2626 0deg 120deg,
+            #10b981 120deg 240deg,
+            #3b82f6 240deg 360deg
+        );
+    transition:transform 3.5s cubic-bezier(.17,.67,.22,.99);
+}
+
+.center{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:90px;height:90px;
+    border-radius:50%;
+    background:radial-gradient(circle,#000,#222);
+    border:6px solid #ffd700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    color:#ffd700;
+    z-index:3;
+}
+
+.spin-btn{
+    margin-top:30px;
+    padding:18px 50px;
+    font-size:1.3rem;
+    font-weight:900;
+    background:linear-gradient(45deg,#ffd700,#ff9f1c);
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+}
+
+.spin-btn:disabled{opacity:.6;cursor:not-allowed}
+
+.result{
+    display:none;
+    margin-top:30px;
+    background:rgba(0,0,0,.6);
+    border:2px solid rgba(255,215,0,.3);
+    border-radius:18px;
+    padding:25px;
+}
+
+.result.show{display:block}
+
+.result h2{color:#ffd700;margin-bottom:20px}
+
+.result-row{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+.result-row:last-child{border-bottom:none}
+
+@media(max-width:600px){
+    .wheel-container{width:300px;height:300px}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1 class="logo">Milk+T</h1>
+<p class="instructions">One spin only. Screenshot to claim.</p>
+
+<div class="wheel-container">
+    <div class="pointer"></div>
+    <div class="wheel">
+        <div class="wheel-inner" id="wheel"></div>
+    </div>
+    <div class="center">Milk+T</div>
+</div>
+
+<button class="spin-btn" id="spinBtn">
+    <i class="fas fa-dice"></i> SPIN
+</button>
+
+<div class="result" id="result">
+    <h2 id="resultTitle">🎰 YOU WON 🎰</h2>
+    <div id="resultDetails"></div>
+</div>
+
+</div>
+
+<script>
+const prizes=[
+ {title:"150% MEGA BONUS",deposit:"$5–$15",lose:"5 FREE PLAYS",redeem:"$250"},
+ {title:"70% PREMIUM BONUS",deposit:"$10–$40",lose:"$10 CASHBACK",redeem:"$300"},
+ {title:"100% SAFE BONUS",deposit:"$5–$15",lose:"50% CASHBACK",redeem:"$300"}
+];
+
+let spinning=false,used=false,rotation=0;
+const wheel=document.getElementById("wheel");
+const btn=document.getElementById("spinBtn");
+const res=document.getElementById("result");
+const resDetails=document.getElementById("resultDetails");
+const resTitle=document.getElementById("resultTitle");
+
+btn.onclick=()=>{
+ if(spinning||used)return;
+ spinning=true;used=true;
+ btn.disabled=true;
+
+ const pick=Math.floor(Math.random()*3);
+ const angle=(pick*120)+1440+(Math.random()*40);
+ rotation+=angle;
+ wheel.style.transform=`rotate(${rotation}deg)`;
+
+ setTimeout(()=>{
+   const p=prizes[pick];
+   resTitle.textContent=p.title;
+   resDetails.innerHTML=`
+     <div class="result-row"><span>Deposit</span><b>${p.deposit}</b></div>
+     <div class="result-row"><span>If Lose</span><b>${p.lose}</b></div>
+     <div class="result-row"><span>Redeem</span><b>${p.redeem}</b></div>
+     <div class="result-row"><span>Cashout</span><b>INSTANT</b></div>
+   `;
+   res.classList.add("show");
+   spinning=false;
+ },3500);
+};
+</script>
 </body>
 </html>
