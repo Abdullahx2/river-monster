@@ -1,196 +1,518 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Milk+T | Premium Casino Wheel</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-
-body{
-    font-family:Segoe UI,Tahoma,sans-serif;
-    background:radial-gradient(circle at center,#0b0b1d,#02020a);
-    color:#fff;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.container{text-align:center;width:100%;max-width:700px}
-
-.logo{
-    font-size:4rem;
-    font-weight:900;
-    background:linear-gradient(45deg,#ffd700,#ff9f1c);
-    -webkit-background-clip:text;
-    color:transparent;
-    margin-bottom:10px;
-}
-
-.instructions{color:#cbd5e1;margin-bottom:30px}
-
-.wheel-container{
-    position:relative;
-    width:360px;
-    height:360px;
-    margin:30px auto;
-}
-
-.pointer{
-    position:absolute;
-    top:-25px;
-    left:50%;
-    transform:translateX(-50%);
-    width:0;height:0;
-    border-left:18px solid transparent;
-    border-right:18px solid transparent;
-    border-top:30px solid #ffd700;
-    z-index:5;
-}
-
-.wheel{
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    background:#000;
-    padding:12px;
-    box-shadow:0 0 50px rgba(255,215,0,.35);
-}
-
-.wheel-inner{
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    background:
-        conic-gradient(
-            #dc2626 0deg 120deg,
-            #10b981 120deg 240deg,
-            #3b82f6 240deg 360deg
-        );
-    transition:transform 3.5s cubic-bezier(.17,.67,.22,.99);
-}
-
-.center{
-    position:absolute;
-    top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    width:90px;height:90px;
-    border-radius:50%;
-    background:radial-gradient(circle,#000,#222);
-    border:6px solid #ffd700;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:900;
-    color:#ffd700;
-    z-index:3;
-}
-
-.spin-btn{
-    margin-top:30px;
-    padding:18px 50px;
-    font-size:1.3rem;
-    font-weight:900;
-    background:linear-gradient(45deg,#ffd700,#ff9f1c);
-    border:none;
-    border-radius:12px;
-    cursor:pointer;
-}
-
-.spin-btn:disabled{opacity:.6;cursor:not-allowed}
-
-.result{
-    display:none;
-    margin-top:30px;
-    background:rgba(0,0,0,.6);
-    border:2px solid rgba(255,215,0,.3);
-    border-radius:18px;
-    padding:25px;
-}
-
-.result.show{display:block}
-
-.result h2{color:#ffd700;margin-bottom:20px}
-
-.result-row{
-    display:flex;
-    justify-content:space-between;
-    padding:10px 0;
-    border-bottom:1px solid rgba(255,255,255,.1);
-}
-.result-row:last-child{border-bottom:none}
-
-@media(max-width:600px){
-    .wheel-container{width:300px;height:300px}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>River Monster - Select Your Bonus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a1931 0%, #185adb 50%, #0a1931 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(15, 30, 60, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 35px 30px;
+            border: 2px solid rgba(0, 198, 255, 0.2);
+            box-shadow: 0 20px 50px rgba(0, 50, 150, 0.5);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            font-size: 3.8rem;
+            font-weight: 900;
+            background: linear-gradient(45deg, #00dbde, #0099ff, #00dbde);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 15px;
+            text-shadow: 0 0 30px rgba(0, 219, 222, 0.3);
+        }
+        
+        .tagline {
+            font-size: 1.3rem;
+            color: #a0d2ff;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+        
+        .instruction-box {
+            background: rgba(0, 150, 255, 0.15);
+            border-radius: 18px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            border: 2px solid rgba(0, 200, 255, 0.3);
+        }
+        
+        .instruction-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #00dbde;
+            margin-bottom: 10px;
+        }
+        
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .option-card {
+            background: linear-gradient(145deg, rgba(0, 150, 255, 0.15), rgba(0, 100, 200, 0.1));
+            border-radius: 20px;
+            padding: 30px 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-10px);
+            border-color: #00dbde;
+            box-shadow: 0 15px 30px rgba(0, 219, 222, 0.2);
+        }
+        
+        .option-card.locked {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        
+        .option-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 10px rgba(0, 219, 222, 0.5));
+        }
+        
+        .option-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        
+        .option-subtitle {
+            font-size: 1rem;
+            color: #a0d2ff;
+            margin-bottom: 25px;
+            padding: 0 10px;
+        }
+        
+        .click-to-reveal {
+            font-size: 0.9rem;
+            color: #00dbde;
+            padding: 8px 20px;
+            background: rgba(0, 219, 222, 0.15);
+            border-radius: 20px;
+            display: inline-block;
+            border: 1px solid rgba(0, 219, 222, 0.3);
+        }
+        
+        /* HIDDEN BONUS DETAILS - PEHLE SE NAHI DIKHEGA */
+        .bonus-details {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border-left: 4px solid #00dbde;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .bonus-details.show {
+            display: block;
+        }
+        
+        .detail-item {
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            text-align: left;
+        }
+        
+        .detail-item i {
+            color: #00dbde;
+            margin-right: 15px;
+            width: 25px;
+        }
+        
+        /* REVEAL SECTION */
+        .reveal-section {
+            display: none;
+            margin-top: 40px;
+            padding: 40px;
+            background: linear-gradient(145deg, rgba(0, 100, 200, 0.2), rgba(0, 150, 255, 0.15));
+            border-radius: 20px;
+            border: 3px solid #00dbde;
+            animation: slideUp 0.6s ease;
+        }
+        
+        .reveal-section.show {
+            display: block;
+        }
+        
+        .reveal-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: #00dbde;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .selected-bonus {
+            background: rgba(0, 219, 222, 0.1);
+            border-radius: 18px;
+            padding: 30px;
+            margin: 25px 0;
+            border: 2px dashed #00dbde;
+        }
+        
+        .bonus-name {
+            font-size: 2rem;
+            color: #00dbde;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .screenshot-box {
+            background: linear-gradient(90deg, rgba(0, 219, 222, 0.2), rgba(0, 150, 255, 0.2));
+            border-radius: 18px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+            font-size: 1.5rem;
+            border-left: 5px solid #ff3366;
+        }
+        
+        .screenshot-box i {
+            font-size: 3rem;
+            color: #ff3366;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        footer {
+            margin-top: 40px;
+            color: #7a9bc8;
+            font-size: 0.9rem;
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+        
+        /* ANIMATIONS */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 0.5s ease;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 2.8rem;
+            }
+            
+            .reveal-title {
+                font-size: 2rem;
+                flex-direction: column;
+            }
+            
+            .bonus-name {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
 </head>
-
 <body>
-<div class="container">
-
-<h1 class="logo">Milk+T</h1>
-<p class="instructions">One spin only. Screenshot to claim.</p>
-
-<div class="wheel-container">
-    <div class="pointer"></div>
-    <div class="wheel">
-        <div class="wheel-inner" id="wheel"></div>
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">RIVER MONSTER</h1>
+            <p class="tagline">PREMIUM CASINO EXPERIENCE</p>
+        </div>
+        
+        <div class="instruction-box">
+            <p class="instruction-text">🎯 SELECT ONE BONUS OPTION BELOW</p>
+            <p style="color: #a0d2ff; font-size: 1.1rem;">
+                Click on any option to reveal its details. You can choose only one bonus.
+            </p>
+        </div>
+        
+        <div class="options-grid">
+            <!-- OPTION 1 -->
+            <div class="option-card" onclick="selectOption(1)">
+                <div class="option-icon">🎣</div>
+                <h3 class="option-title">50% Bonus + Free Plays</h3>
+                <p class="option-subtitle">Perfect for casual players</p>
+                <div class="click-to-reveal">CLICK TO REVEAL DETAILS</div>
+                
+                <!-- HIDDEN DETAILS - Pehle se nahi dikhega -->
+                <div class="bonus-details" id="details-1">
+                    <div class="detail-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        50% Bonus on next Deposit $5 – $15
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-gamepad"></i>
+                        5 Free Plays if you lose
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-gift"></i>
+                        Redeem up to $250
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-bolt"></i>
+                        Instant Cashout
+                    </div>
+                </div>
+            </div>
+            
+            <!-- OPTION 2 -->
+            <div class="option-card" onclick="selectOption(2)">
+                <div class="option-icon">🌊</div>
+                <h3 class="option-title">100% Deposit Bonus</h3>
+                <p class="option-subtitle">Double your deposit amount</p>
+                <div class="click-to-reveal">CLICK TO REVEAL DETAILS</div>
+                
+                <!-- HIDDEN DETAILS - Pehle se nahi dikhega -->
+                <div class="bonus-details" id="details-2">
+                    <div class="detail-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        100% Bonus on next Deposit $5 – $15
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-shield-alt"></i>
+                        50% Cashback if you lose
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-gift"></i>
+                        Redeem up to $300
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-bolt"></i>
+                        Instant Cashout
+                    </div>
+                </div>
+            </div>
+            
+            <!-- OPTION 3 -->
+            <div class="option-card" onclick="selectOption(3)">
+                <div class="option-icon">🐟</div>
+                <h3 class="option-title">70% High Roller Bonus</h3>
+                <p class="option-subtitle">For premium players</p>
+                <div class="click-to-reveal">CLICK TO REVEAL DETAILS</div>
+                
+                <!-- HIDDEN DETAILS - Pehle se nahi dikhega -->
+                <div class="bonus-details" id="details-3">
+                    <div class="detail-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        70% Bonus on next Deposit $10 – $40
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-hand-holding-usd"></i>
+                        $10 Cashback if you lose
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-gift"></i>
+                        Redeem up to $300
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-bolt"></i>
+                        Instant Cashout
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- REVEAL SECTION -->
+        <div class="reveal-section" id="revealSection">
+            <h2 class="reveal-title">
+                <i class="fas fa-crown"></i>
+                <span>YOUR BONUS IS REVEALED!</span>
+                <i class="fas fa-crown"></i>
+            </h2>
+            
+            <div class="selected-bonus" id="selectedBonus">
+                <!-- Selected bonus will appear here -->
+            </div>
+            
+            <div class="screenshot-box">
+                <i class="fas fa-camera"></i>
+                <div>
+                    <strong>📸 TAKE SCREENSHOT NOW</strong><br>
+                    <span style="font-size: 1.2rem;">Send this screenshot to River Monster support</span>
+                </div>
+            </div>
+            
+            <div style="text-align: center; color: #a0d2ff; font-size: 1rem; margin-top: 20px;">
+                <i class="fas fa-lock"></i> Bonus has been locked. Cannot change selection.
+            </div>
+        </div>
     </div>
-    <div class="center">Milk+T</div>
-</div>
+    
+    <footer>
+        &copy; <span id="currentYear"></span> River Monster Gaming Platform. 18+ Only.
+    </footer>
 
-<button class="spin-btn" id="spinBtn">
-    <i class="fas fa-dice"></i> SPIN
-</button>
-
-<div class="result" id="result">
-    <h2 id="resultTitle">🎰 YOU WON 🎰</h2>
-    <div id="resultDetails"></div>
-</div>
-
-</div>
-
-<script>
-const prizes=[
- {title:"150% MEGA BONUS",deposit:"$5–$15",lose:"5 FREE PLAYS",redeem:"$250"},
- {title:"70% PREMIUM BONUS",deposit:"$10–$40",lose:"$10 CASHBACK",redeem:"$300"},
- {title:"100% SAFE BONUS",deposit:"$5–$15",lose:"50% CASHBACK",redeem:"$300"}
-];
-
-let spinning=false,used=false,rotation=0;
-const wheel=document.getElementById("wheel");
-const btn=document.getElementById("spinBtn");
-const res=document.getElementById("result");
-const resDetails=document.getElementById("resultDetails");
-const resTitle=document.getElementById("resultTitle");
-
-btn.onclick=()=>{
- if(spinning||used)return;
- spinning=true;used=true;
- btn.disabled=true;
-
- const pick=Math.floor(Math.random()*3);
- const angle=(pick*120)+1440+(Math.random()*40);
- rotation+=angle;
- wheel.style.transform=`rotate(${rotation}deg)`;
-
- setTimeout(()=>{
-   const p=prizes[pick];
-   resTitle.textContent=p.title;
-   resDetails.innerHTML=`
-     <div class="result-row"><span>Deposit</span><b>${p.deposit}</b></div>
-     <div class="result-row"><span>If Lose</span><b>${p.lose}</b></div>
-     <div class="result-row"><span>Redeem</span><b>${p.redeem}</b></div>
-     <div class="result-row"><span>Cashout</span><b>INSTANT</b></div>
-   `;
-   res.classList.add("show");
-   spinning=false;
- },3500);
-};
-</script>
+    <script>
+        let selectedOption = null;
+        
+        // Bonus data
+        const bonuses = {
+            1: {
+                title: "🎣 50% BONUS + FREE PLAYS",
+                details: [
+                    "50% Bonus on next Deposit $5 – $15",
+                    "5 Free Plays if you lose",
+                    "Redeem up to $250",
+                    "Instant Cashout"
+                ]
+            },
+            2: {
+                title: "🌊 100% DEPOSIT BONUS",
+                details: [
+                    "100% Bonus on next Deposit $5 – $15",
+                    "50% Cashback if you lose",
+                    "Redeem up to $300",
+                    "Instant Cashout"
+                ]
+            },
+            3: {
+                title: "🐟 70% HIGH ROLLER BONUS",
+                details: [
+                    "70% Bonus on next Deposit $10 – $40",
+                    "$10 Cashback if you lose",
+                    "Redeem up to $300",
+                    "Instant Cashout"
+                ]
+            }
+        };
+        
+        function selectOption(optionNumber) {
+            // If already selected and revealed, do nothing
+            if (document.querySelector('.reveal-section.show')) return;
+            
+            // Hide all details first
+            document.querySelectorAll('.bonus-details').forEach(detail => {
+                detail.classList.remove('show');
+            });
+            
+            // Show selected details
+            const selectedDetails = document.getElementById(`details-${optionNumber}`);
+            selectedDetails.classList.add('show');
+            
+            // Store selected option
+            selectedOption = optionNumber;
+            
+            // Auto reveal after 2 seconds
+            setTimeout(() => {
+                revealBonus();
+            }, 2000);
+        }
+        
+        function revealBonus() {
+            if (!selectedOption) return;
+            
+            const bonus = bonuses[selectedOption];
+            const selectedBonusDiv = document.getElementById('selectedBonus');
+            
+            // Show selected bonus
+            selectedBonusDiv.innerHTML = `
+                <h3 class="bonus-name">${bonus.title}</h3>
+                ${bonus.details.map(item => `
+                    <div class="detail-item">
+                        <i class="fas fa-check-circle"></i> ${item}
+                    </div>
+                `).join('')}
+            `;
+            
+            // Show reveal section
+            const revealSection = document.getElementById('revealSection');
+            revealSection.classList.add('show');
+            
+            // Add pulse animation
+            selectedBonusDiv.classList.add('pulse');
+            
+            // Lock all options
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.classList.add('locked');
+            });
+            
+            // Scroll to reveal section
+            setTimeout(() => {
+                revealSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+            }, 300);
+            
+            // Show screenshot alert
+            setTimeout(() => {
+                alert("🎉 BONUS REVEALED!\n\n📸 Take screenshot NOW\n\nSend to River Monster support to claim");
+            }, 500);
+        }
+        
+        // Set current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Mobile optimization
+        document.addEventListener('touchstart', function() {}, {passive: true});
+    </script>
 </body>
 </html>
